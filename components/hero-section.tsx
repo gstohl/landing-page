@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button"
-
 export function HeroSection() {
   return (
     <section id="about" className="py-4 md:py-6 lg:py-8">
