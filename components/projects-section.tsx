@@ -15,12 +15,12 @@ export function ProjectsSection() {
           content="A sleek, single-page portfolio website showcasing my skills and expertise. Features dark mode support, smooth scrolling, and a clean, professional design."
           githubUrl="https://github.com/gstohl/landing-page"
         />
-        <ProjectCard
+        {/* <ProjectCard
           title="Vanity Address"
           type="mobile"
           description="macOS app for generating Solana vanity addresses"
           content="A powerful and user-friendly macOS application that allows users to generate custom Solana wallet addresses. Built with Swift and integrating Solana's cryptographic libraries for secure and efficient address generation."
-        />
+        /> */}
       </div>
     </section>
   )
