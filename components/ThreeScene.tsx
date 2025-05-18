@@ -30,7 +30,7 @@ function isWebGLAvailable() {
 
 // Effects component with proper post-processing setup
 // This is kept for future use even though it's not currently utilized
-// @ts-expect-error - Defined for future use
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function Effects() {
   const { gl } = useThree()
   
