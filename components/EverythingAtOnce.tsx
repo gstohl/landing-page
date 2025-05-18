@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Text, MeshDistortMaterial } from '@react-three/drei'
+import { MeshDistortMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
 export const EverythingAtOnceSection: React.FC = () => {

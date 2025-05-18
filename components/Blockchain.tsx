@@ -89,7 +89,7 @@ const ConnectionLines: React.FC<{ blocks: { position: THREE.Vector3 }[] }> = ({ 
     return geometries
   }, [blocks])
 
-  useFrame((state) => {
+  useFrame(() => {
     // Optional: Add animation to lines if needed (e.g., pulsing opacity)
   })
 

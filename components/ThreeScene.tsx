@@ -23,12 +23,14 @@ function isWebGLAvailable() {
     const canvas = document.createElement('canvas')
     return !!(window.WebGLRenderingContext && 
       (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')))
-  } catch (_) {
+  } catch {
     return false
   }
 }
 
 // Effects component with proper post-processing setup
+// This is kept for future use even though it's not currently utilized
+/* @ts-ignore */
 function Effects() {
   const { gl } = useThree()
   
