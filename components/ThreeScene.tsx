@@ -30,8 +30,8 @@ function isWebGLAvailable() {
 
 // Effects component with proper post-processing setup
 // This is kept for future use even though it's not currently utilized
-/* @ts-ignore */
-function Effects() {
+// @ts-expect-error - Defined for future use
+export function Effects() {
   const { gl } = useThree()
   
   useEffect(() => {
