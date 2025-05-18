@@ -99,7 +99,7 @@ export const ThreeSceneProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       <div className="fixed top-0 left-0 w-screen h-screen -z-10">
         {isInitialized && (
           <ThreeScene activeSection={activeSection} sections={sections}>
-            {sections.map((Section, index) => (
+            {sections.map((Section) => (
               <group
                 key={Section.id}
                 position={Section.position}

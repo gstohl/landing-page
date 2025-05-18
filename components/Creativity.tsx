@@ -1,6 +1,5 @@
 import React, { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 
 export const CreativitySection: React.FC = () => {
@@ -9,7 +8,7 @@ export const CreativitySection: React.FC = () => {
   
   // Create memoized nodes data to prevent reset on scroll
   const nodesData = useMemo(() => {
-    return Array.from({ length: 50 }).map((_, i) => ({
+    return Array.from({ length: 50 }).map(() => ({
       position: [
         (Math.random() - 0.5) * 4,
         (Math.random() - 0.5) * 4,
@@ -92,7 +91,7 @@ const ConnectionLines: React.FC = () => {
   
   // Create all line geometries once and preserve them
   const lineGeometries = useMemo(() => {
-    return Array.from({ length: 50 }).map((_, i) => {
+    return Array.from({ length: 50 }).map(() => {
       const points: THREE.Vector3[] = []
       const startPoint = new THREE.Vector3(
         (Math.random() - 0.5) * 3,

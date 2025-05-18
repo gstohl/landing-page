@@ -1,6 +1,5 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Sphere, GradientTexture } from '@react-three/drei'
 import * as THREE from 'three'
 
 export const TheDarknessSection: React.FC = () => {

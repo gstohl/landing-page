@@ -21,8 +21,8 @@ export const BlockchainSection: React.FC = () => {
     return instances
   }, [])
 
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime()
+  useFrame((_state) => {
+    const t = _state.clock.getElapsedTime()
 
     if (groupRef.current) {
       // Gentle rotation

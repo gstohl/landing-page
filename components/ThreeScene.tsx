@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState, Suspense, useMemo } from 'react'
+import React, { useRef, useEffect, useState, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera, Environment, Sparkles } from '@react-three/drei'
+import { PerspectiveCamera, Environment, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
 import { ErrorBoundary } from 'react-error-boundary'
 import dynamic from 'next/dynamic'
@@ -23,7 +23,7 @@ function isWebGLAvailable() {
     const canvas = document.createElement('canvas')
     return !!(window.WebGLRenderingContext && 
       (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')))
-  } catch (e) {
+  } catch (_) {
     return false
   }
 }
@@ -62,7 +62,7 @@ interface ThreeSceneProps {
 }
 
 // Enhanced CRT Effect component with green phosphor look
-const CRTEffect = React.memo(() => {
+const CRTEffect = React.memo(function CRTEffect() {
   return (
     <EffectComposer>
       <Scanline blendFunction={BlendFunction.OVERLAY} density={1.25} opacity={0.5} />
@@ -75,7 +75,7 @@ const CRTEffect = React.memo(() => {
 
 // Camera animation component with auto-rotation
 const CameraController: React.FC<{ activeSection: number; sections: SectionData[] }> = ({ activeSection, sections }) => {
-  const { camera, viewport } = useThree()
+  const { camera } = useThree()
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0))
   const initializedRef = useRef(false)
   const autoRotateRef = useRef(true)
