@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useThreeScene } from './ThreeSceneProvider'
 import Link from 'next/link'
+import Image from 'next/image'
 
 // Project interface for type safety
 interface Project {
@@ -99,7 +100,7 @@ Vanity is provided "as is" without warranty of any kind. The security of your cr
 `;
 
 export const CyberpunkLanding: React.FC = () => {
-  const { activeSection, setActiveSection } = useThreeScene()
+  const { setActiveSection } = useThreeScene()
   const [isPrivacyPage, setIsPrivacyPage] = useState(false)
   
   // Use window.location.pathname to detect routes
@@ -207,12 +208,14 @@ export const CyberpunkLanding: React.FC = () => {
                     className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow mb-6"
                   >
                     <div className="flex gap-4 mb-4">
-                      <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                      <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 relative">
                         {project.image && (
-                          <img 
+                          <Image 
                             src={project.image} 
                             alt={project.name} 
-                            className="w-full h-full object-cover"
+                            fill
+                            sizes="64px"
+                            className="object-cover"
                           />
                         )}
                       </div>

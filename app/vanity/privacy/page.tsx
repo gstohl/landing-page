@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from 'next/dynamic'
-import { Metadata } from 'next'
 
 // Dynamically import the CyberpunkLanding component with no SSR
 // This is necessary for Three.js which requires browser APIs
