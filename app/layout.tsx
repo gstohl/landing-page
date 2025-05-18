@@ -1,11 +1,17 @@
 import "@/styles/globals.css"
-import { Inter } from 'next/font/google'
-import { ThemeProvider } from "@/components/theme-provider"
+import { Inter, Orbitron } from 'next/font/google'
 import { Metadata } from 'next'
+import ClientThreeSceneWrapper from '@/components/ClientThreeSceneWrapper'
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+})
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron",
+  weight: ["400", "500", "600", "700", "800", "900"],
 })
 
 export const metadata: Metadata = {
@@ -50,12 +56,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark">
       <head />
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased bg-black text-white min-h-screen`}>
+        <ClientThreeSceneWrapper>
           {children}
-        </ThemeProvider>
+        </ClientThreeSceneWrapper>
       </body>
     </html>
   )
