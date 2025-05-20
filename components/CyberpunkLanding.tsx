@@ -171,30 +171,31 @@ export const CyberpunkLanding: React.FC = () => {
   };
   
   return (
-    <div className="w-screen h-screen overflow-auto">
-      <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-10">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-orbitron text-center whitespace-nowrap mb-4 text-cyan-500 tracking-wider cyberpunk-text">
-          {isPrivacyPage ? 'VANITY ADDRESS' : 'DOMINIK GSTÖHL'}
-        </h1>
+    <div className="relative min-h-screen overflow-auto touch-auto">
+      <div className="sticky top-8 w-full flex justify-center z-10">
+        <div className="w-full max-w-2xl px-4 flex items-center justify-center relative">
+          {/* Back Button - Only show on privacy page */}
+          {isPrivacyPage && (
+            <div className="absolute left-4 top-1/4 transform -translate-y-1/4">
+              <Link href="/">
+                <div className="flex items-center justify-center w-10 h-10 bg-[#003300]/70 text-[#00ff00] rounded-full hover:bg-[#004400] transition-colors duration-300 cursor-pointer shadow-[0_0_10px_rgba(0,255,0,0.3)]">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                </div>
+              </Link>
+            </div>
+          )}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-orbitron text-center whitespace-nowrap mb-4 text-cyan-500 tracking-wider cyberpunk-text">
+            {isPrivacyPage ? 'VANITY ADDRESS' : 'DOMINIK GSTÖHL'}
+          </h1>
+        </div>
       </div>
       
-      {/* Back Button - Only show on privacy page */}
-      {isPrivacyPage && (
-        <div className="fixed top-8 left-8 z-50">
-          <Link href="/">
-            <div className="flex items-center justify-center w-10 h-10 bg-[#003300]/70 text-[#00ff00] rounded-full hover:bg-[#004400] transition-colors duration-300 cursor-pointer shadow-[0_0_10px_rgba(0,255,0,0.3)]">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-            </div>
-          </Link>
-        </div>
-      )}
-      
-      {/* Info Panel with About Me and Projects */}
-      <div className="fixed inset-0 z-20 pointer-events-none overflow-auto">
-        <div className="container mx-auto p-4 h-full pointer-events-auto">
-          <div className="max-w-2xl mx-auto space-y-6 my-20">
+      {/* Main Content - Projects, etc. */}
+      <div className="relative z-20">
+        <div className="container mx-auto p-4">
+          <div className="max-w-2xl mx-auto space-y-6 mt-8 pointer-events-auto">
             
             {/* Render privacy policy if on that page, otherwise show projects */}
             {isPrivacyPage ? (
@@ -210,7 +211,7 @@ export const CyberpunkLanding: React.FC = () => {
                     className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow mb-6"
                   >
                     <div className="flex gap-4 mb-4">
-                      <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 relative">
+                      <div className="hidden sm:block w-16 h-16 rounded-md overflow-hidden flex-shrink-0 relative">
                         {project.image && (
                           <Image 
                             src={project.image} 

@@ -81,7 +81,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-      <head />
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+      </head>
       <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased bg-black text-white min-h-screen`}>
         <ClientThreeSceneWrapper>
           {children}

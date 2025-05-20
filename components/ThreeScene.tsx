@@ -98,10 +98,28 @@ const CameraController: React.FC<{ activeSection: number; sections: SectionData[
       }
     }
     
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length > 0) {
+        // Prevent default to avoid scrolling while touching the 3D scene
+        // event.preventDefault();
+        
+        // Get the first touch point
+        const touch = event.touches[0];
+        
+        // Convert touch position to normalized coordinates (-1 to 1)
+        mousePosition.current = {
+          x: (touch.clientX / window.innerWidth) * 2 - 1,
+          y: -((touch.clientY / window.innerHeight) * 2 - 1) // Y is inverted in 3D space
+        }
+      }
+    }
+    
     window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('touchmove', handleTouchMove)
     }
   }, [])
   
@@ -234,14 +252,14 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ children, activeSection, sectio
   }
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen">
+    <div className="fixed top-0 left-0 w-screen h-screen" style={{ zIndex: 0, pointerEvents: 'none' }}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Canvas 
           ref={canvasRef}
           shadows 
           dpr={[1, 2]}
           frameloop="always"
-          style={{ position: 'absolute' }}
+          style={{ position: 'absolute', pointerEvents: 'auto' }}
           gl={{
             powerPreference: "high-performance",
             antialias: true,
@@ -286,7 +304,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ children, activeSection, sectio
 function ThreeSceneWrapper({ children, activeSection, sections }: ThreeSceneProps) {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<div className="p-4 bg-[#041104]"></div>}>
+      <Suspense fallback={<div className="fixed inset-0 bg-[#041104] z-[-1]"></div>}>
         <ThreeScene activeSection={activeSection} sections={sections}>
           {children}
         </ThreeScene>
