@@ -14,6 +14,7 @@ interface Project {
   githubUrl?: string;
   image?: string;
   privacyPolicyUrl?: string;
+  releaseDate?: string;
 }
 
 // Projects data
@@ -23,9 +24,10 @@ const projects: Project[] = [
     name: 'Vanity Address',
     description: 'A high-performance Solana vanity address generator for macOS. Create personalized wallet addresses with custom prefixes or patterns to make your wallet more recognizable and unique.',
     technologies: ['Rust', 'Swift', 'Solana'],
-    appStoreUrl: 'https://apps.apple.com/app/vanity-solana-address-finder/id1669890995',
+    appStoreUrl: 'https://apps.apple.com/ch/app/vanity-address/id6745989622',
     image: '/V512.png',
-    privacyPolicyUrl: '/vanity/privacy'
+    privacyPolicyUrl: '/vanity/privacy',
+    releaseDate: 'May 2025'
   }
 ];
 
@@ -219,8 +221,13 @@ export const CyberpunkLanding: React.FC = () => {
                           />
                         )}
                       </div>
-                      <div>
-                        <h3 className="text-xl font-orbitron text-[#00ff00] mb-1">{project.name}</h3>
+                      <div className="flex-grow">
+                        <div className="flex justify-between items-start">
+                          <h3 className="text-xl font-orbitron text-[#00ff00] mb-1">{project.name}</h3>
+                          {project.releaseDate && (
+                            <span className="text-xs text-gray-400">{project.releaseDate}</span>
+                          )}
+                        </div>
                         <div className="flex flex-wrap gap-2 mb-2">
                           {project.technologies.map(tech => (
                             <span 
@@ -307,6 +314,53 @@ export const CyberpunkLanding: React.FC = () => {
                       </svg>
                       <span>dominik.gstoehl@icloud.com</span>
                     </a>
+                  </div>
+                </div>
+
+                {/* Mentions Card */}
+                <div className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow mb-6">
+                  <h3 className="text-xl font-orbitron text-[#00ff00] mb-4">MENTIONS</h3>
+                  
+                  {/* Mention sub-card */}
+                  <div className="border border-[#003300] rounded-lg p-4 bg-black/30 mb-4">
+                    {/* Name and Socials */}
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-lg font-orbitron text-[#00ff00]">Manuel Lampert</h4>
+                      
+                      <div className="flex gap-2">
+                        <a 
+                          href="https://x.com/manuellampert" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-7 h-7 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
+                          aria-label="X profile"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                          </svg>
+                        </a>
+                        <a 
+                          href="https://manuellampert.com" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-7 h-7 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
+                          aria-label="Website"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                    
+                    {/* Projects */}
+                    <div className="pl-2 border-l-2 border-[#003300]">
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-200">Vanity Address</span>
+                        <span className="px-2 py-0.5 bg-[#002200]/60 text-[#00ff00] text-xs rounded">UI Design</span>
+                      </div>
+                      <p className="text-gray-400 text-xs mt-1">Initial UI design</p>
+                    </div>
                   </div>
                 </div>
               </>
