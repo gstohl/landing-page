@@ -2,7 +2,7 @@ import "@/styles/globals.css"
 import { Inter, Orbitron } from 'next/font/google'
 import { Metadata } from 'next'
 import ClientThreeSceneWrapper from '@/components/ClientThreeSceneWrapper'
-
+import { Analytics } from '@vercel/analytics/next';
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -88,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClientThreeSceneWrapper>
           {children}
         </ClientThreeSceneWrapper>
+        <Analytics />
       </body>
     </html>
   )
