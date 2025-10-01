@@ -4,7 +4,7 @@ import { PerspectiveCamera, Sparkles, Stars } from '@react-three/drei'
 import * as THREE from 'three'
 import { ErrorBoundary } from 'react-error-boundary'
 import dynamic from 'next/dynamic'
-import { EffectComposer, Scanline, ChromaticAberration, Vignette, Noise, Bloom, DepthOfField } from '@react-three/postprocessing'
+import { EffectComposer, Scanline, ChromaticAberration, Vignette, Noise, Bloom } from '@react-three/postprocessing'
 import { BlendFunction, KernelSize } from 'postprocessing'
 
 // Define the structure for section data passed down
