@@ -69,14 +69,6 @@ const CRTEffect = React.memo(function CRTEffect() {
         kernelSize={isMobile ? KernelSize.MEDIUM : KernelSize.LARGE}
         mipmapBlur
       />
-      {!isMobile ? (
-        <DepthOfField
-          focusDistance={0}
-          focalLength={0.02}
-          bokehScale={2}
-          height={480}
-        />
-      ) : null}
       <Scanline blendFunction={BlendFunction.OVERLAY} density={isMobile ? 1.0 : 1.5} opacity={isMobile ? 0.4 : 0.6} />
       <ChromaticAberration offset={isMobile ? [0.002, 0.002] : [0.004, 0.004]} />
       <Vignette eskil={false} offset={0.1} darkness={0.9} />
