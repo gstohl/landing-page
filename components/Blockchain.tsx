@@ -68,45 +68,92 @@ export const BlockchainSection: React.FC = () => {
   )
 }
 
-// Simple Connection Lines Component
+// Enhanced Connection Lines with animated transactions
 const ConnectionLines: React.FC<{ blocks: { position: THREE.Vector3 }[] }> = ({ blocks }) => {
   const linesRef = useRef<THREE.Group>(null)
 
-  const lineGeometries = useMemo(() => {
-    const geometries = []
+  const lineConnections = useMemo(() => {
+    const connections: { start: THREE.Vector3; end: THREE.Vector3; geometry: THREE.BufferGeometry }[] = []
     for (let i = 0; i < blocks.length; i++) {
       // Connect each block to a few random others
-      const connections = Math.floor(Math.random() * 2) + 1 // 1 to 3 connections
-      for (let j = 0; j < connections; j++) {
+      const numConnections = Math.floor(Math.random() * 2) + 1
+      for (let j = 0; j < numConnections; j++) {
         const targetIndex = Math.floor(Math.random() * blocks.length)
-        if (i === targetIndex) continue // Don't connect to self
-        
+        if (i === targetIndex) continue
+
         const points = [blocks[i].position, blocks[targetIndex].position]
         const geometry = new THREE.BufferGeometry().setFromPoints(points)
-        geometries.push(geometry)
+        connections.push({
+          start: blocks[i].position,
+          end: blocks[targetIndex].position,
+          geometry
+        })
       }
     }
-    return geometries
+    return connections
   }, [blocks])
-
-  useFrame(() => {
-    // Optional: Add animation to lines if needed (e.g., pulsing opacity)
-  })
 
   return (
     <group ref={linesRef}>
-      {lineGeometries.map((geometry, i) => (
-        <line key={i}>
-          <primitive object={geometry} attach="geometry" />
-          <lineBasicMaterial 
-            attach="material" 
-            color={new THREE.Color().setHSL(0.15, 0.9, 0.7)} 
-            linewidth={1}
-            opacity={0.2 + Math.random() * 0.2}
-            transparent 
+      {lineConnections.map((connection, i) => (
+        <React.Fragment key={i}>
+          <line>
+            <primitive object={connection.geometry} attach="geometry" />
+            <lineBasicMaterial
+              attach="material"
+              color={new THREE.Color().setHSL(0.15, 0.9, 0.7)}
+              linewidth={1}
+              opacity={0.3}
+              transparent
+            />
+          </line>
+          <TransactionParticle
+            start={connection.start}
+            end={connection.end}
+            delay={i * 0.5}
           />
-        </line>
+        </React.Fragment>
       ))}
     </group>
+  )
+}
+
+// Animated transaction particle moving along connection
+const TransactionParticle: React.FC<{
+  start: THREE.Vector3;
+  end: THREE.Vector3;
+  delay: number;
+}> = ({ start, end, delay }) => {
+  const particleRef = useRef<THREE.Mesh>(null)
+
+  useFrame((state) => {
+    if (particleRef.current) {
+      const t = (state.clock.getElapsedTime() + delay) % 3
+      const progress = t / 3
+
+      // Lerp between start and end
+      particleRef.current.position.lerpVectors(start, end, progress)
+
+      // Pulse effect
+      const scale = 0.15 + Math.sin(progress * Math.PI) * 0.1
+      particleRef.current.scale.setScalar(scale)
+
+      // Fade in/out
+      const material = particleRef.current.material as THREE.MeshStandardMaterial
+      material.opacity = Math.sin(progress * Math.PI) * 0.8
+    }
+  })
+
+  return (
+    <mesh ref={particleRef}>
+      <sphereGeometry args={[0.15, 8, 8]} />
+      <meshStandardMaterial
+        color={new THREE.Color().setHSL(0.15, 1, 0.7)}
+        emissive={new THREE.Color().setHSL(0.15, 1, 0.7)}
+        emissiveIntensity={2}
+        transparent
+        opacity={0.8}
+      />
+    </mesh>
   )
 } 

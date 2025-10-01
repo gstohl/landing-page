@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { PerspectiveCamera, Environment, Sparkles } from '@react-three/drei'
+import { PerspectiveCamera, Sparkles, Stars } from '@react-three/drei'
 import * as THREE from 'three'
 import { ErrorBoundary } from 'react-error-boundary'
 import dynamic from 'next/dynamic'
-import { EffectComposer, Scanline, ChromaticAberration, Vignette, Noise } from '@react-three/postprocessing'
-import { BlendFunction } from 'postprocessing'
+import { EffectComposer, Scanline, ChromaticAberration, Vignette, Noise, Bloom, DepthOfField } from '@react-three/postprocessing'
+import { BlendFunction, KernelSize } from 'postprocessing'
 
 // Define the structure for section data passed down
 interface SectionData {
@@ -63,17 +63,105 @@ interface ThreeSceneProps {
   sections: SectionData[];
 }
 
-// Enhanced CRT Effect component with green phosphor look
+// Enhanced CRT Effect component with green phosphor look and bloom
+// Optimized for mobile performance
 const CRTEffect = React.memo(function CRTEffect() {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   return (
     <EffectComposer>
-      <Scanline blendFunction={BlendFunction.OVERLAY} density={1.25} opacity={0.5} />
-      <ChromaticAberration offset={[0.003, 0.003]} />
-      <Vignette eskil={false} offset={0.1} darkness={0.85} />
-      <Noise opacity={0.15} blendFunction={BlendFunction.OVERLAY} />
+      <Bloom
+        intensity={isMobile ? 1.0 : 1.5}
+        luminanceThreshold={isMobile ? 0.3 : 0.2}
+        luminanceSmoothing={0.9}
+        kernelSize={isMobile ? KernelSize.MEDIUM : KernelSize.LARGE}
+        mipmapBlur
+      />
+      {!isMobile && (
+        <DepthOfField
+          focusDistance={0}
+          focalLength={0.02}
+          bokehScale={2}
+          height={480}
+        />
+      )}
+      <Scanline blendFunction={BlendFunction.OVERLAY} density={isMobile ? 1.0 : 1.5} opacity={isMobile ? 0.4 : 0.6} />
+      <ChromaticAberration offset={isMobile ? [0.002, 0.002] : [0.004, 0.004]} />
+      <Vignette eskil={false} offset={0.1} darkness={0.9} />
+      <Noise opacity={isMobile ? 0.1 : 0.2} blendFunction={BlendFunction.OVERLAY} />
     </EffectComposer>
   )
 })
+
+// Adaptive starfield component
+const AdaptiveStarfield: React.FC = () => {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  return (
+    <Stars
+      radius={100}
+      depth={50}
+      count={isMobile ? 2000 : 5000}
+      factor={4}
+      saturation={0}
+      fade
+      speed={0.5}
+    />
+  )
+}
+
+// Adaptive sparkles component
+const AdaptiveSparkles: React.FC = () => {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  return (
+    <>
+      <Sparkles
+        count={isMobile ? 150 : 300}
+        scale={20}
+        size={2}
+        speed={0.3}
+        color="#00ff00"
+        opacity={0.8}
+      />
+      <Sparkles
+        count={isMobile ? 100 : 200}
+        scale={25}
+        size={1.5}
+        speed={0.4}
+        color="#00ffff"
+        opacity={0.6}
+      />
+    </>
+  )
+}
 
 // Camera animation component with auto-rotation
 const CameraController: React.FC<{ activeSection: number; sections: SectionData[] }> = ({ activeSection, sections }) => {
@@ -232,7 +320,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ children, activeSection, sectio
   }, [isMounted])
   
   if (!isMounted) {
-    return <div className="fixed top-0 left-0 w-screen h-screen bg-[#041104]" />
+    return <div className="fixed top-0 left-0 w-screen h-screen bg-[#000510]" />
   }
   
   if (!isWebGLSupported) {
@@ -271,8 +359,10 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ children, activeSection, sectio
           }}
           performance={{ min: 0.5 }}
           onCreated={({ gl }) => {
-            gl.setClearColor('#041104') // Dark green base color
+            gl.setClearColor('#000510') // Deep space blue-black
             gl.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+            gl.toneMapping = THREE.ACESFilmicToneMapping
+            gl.toneMappingExposure = 1.2
           }}
         >
           {/* Set initial camera position - it will look around from here */}
@@ -285,12 +375,18 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ children, activeSection, sectio
           />
           <CameraController activeSection={activeSection} sections={sections} /> 
 
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow />
-          <fog attach="fog" args={['#041104', 10, 25]} />
-          <color attach="background" args={['#041104']} />
-          <Sparkles count={500} scale={20} size={2} speed={0.5} color="#00ff00" />
-          <Environment preset="night" />
+          <ambientLight intensity={0.3} />
+          <directionalLight position={[10, 10, 5]} intensity={1.2} castShadow />
+          <pointLight position={[0, 0, 0]} intensity={1} color="#00ff00" distance={50} />
+          <fog attach="fog" args={['#000510', 10, 30]} />
+          <color attach="background" args={['#000510']} />
+
+          {/* Procedural starfield - optimized for device */}
+          <AdaptiveStarfield />
+
+          {/* Adaptive sparkles */}
+          <AdaptiveSparkles />
+
           <Suspense fallback={null}>
             {children} {/* Render the statically positioned sections */}
           </Suspense>
@@ -304,7 +400,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ children, activeSection, sectio
 function ThreeSceneWrapper({ children, activeSection, sections }: ThreeSceneProps) {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<div className="fixed inset-0 bg-[#041104] z-[-1]"></div>}>
+      <Suspense fallback={<div className="fixed inset-0 bg-[#000510] z-[-1]"></div>}>
         <ThreeScene activeSection={activeSection} sections={sections}>
           {children}
         </ThreeScene>

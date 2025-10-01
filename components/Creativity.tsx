@@ -89,7 +89,7 @@ export const CreativitySection: React.FC = () => {
 const ConnectionLines: React.FC = () => {
   const linesRef = useRef<THREE.Group>(null)
   
-  // Create all line geometries once and preserve them
+  // Create all line geometries once and preserve them with neural pulse data
   const lineGeometries = useMemo(() => {
     return Array.from({ length: 50 }).map(() => {
       const points: THREE.Vector3[] = []
@@ -103,7 +103,7 @@ const ConnectionLines: React.FC = () => {
         (Math.random() - 0.5) * 3,
         (Math.random() - 0.5) * 3
       )
-      
+
       points.push(startPoint)
       // Add some curve points
       for (let j = 1; j < 5; j++) {
@@ -114,16 +114,17 @@ const ConnectionLines: React.FC = () => {
         ))
       }
       points.push(endPoint)
-      
+
       const curve = new THREE.CatmullRomCurve3(points)
       const curvePoints = curve.getPoints(50)
-      
+
       // Create and return the actual geometry object
       const geometry = new THREE.BufferGeometry().setFromPoints(curvePoints)
-      
+
       return {
         geometry,
-        color: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.9, 0.6)
+        color: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.9, 0.6),
+        pulseOffset: Math.random() * Math.PI * 2 // Random pulse timing
       }
     });
   }, []);
@@ -162,17 +163,42 @@ const ConnectionLines: React.FC = () => {
   return (
     <group ref={linesRef}>
       {lineGeometries.map((line, i) => (
-        <line key={i}>
-          <primitive object={line.geometry} attach="geometry" />
-          <lineBasicMaterial 
-            attach="material" 
-            color={line.color} 
-            linewidth={1} 
-            opacity={0.6} 
-            transparent 
-          />
-        </line>
+        <React.Fragment key={i}>
+          <NeuralLine line={line} index={i} />
+        </React.Fragment>
       ))}
     </group>
+  )
+}
+
+// Neural line with pulse effect
+const NeuralLine: React.FC<{ line: { geometry: THREE.BufferGeometry; color: THREE.Color; pulseOffset: number }; index: number }> = ({ line, index }) => {
+  const materialRef = useRef<THREE.LineBasicMaterial>(null)
+
+  useFrame((state) => {
+    if (materialRef.current) {
+      const t = state.clock.getElapsedTime()
+      // Create pulse effect that travels along the lines
+      const pulse = Math.sin(t * 2 + line.pulseOffset) * 0.5 + 0.5
+      materialRef.current.opacity = 0.3 + pulse * 0.5
+
+      // Add subtle color variation
+      const hue = 0.6 + Math.sin(t * 0.5 + index * 0.1) * 0.1
+      materialRef.current.color.setHSL(hue, 0.9, 0.6)
+    }
+  })
+
+  return (
+    <line>
+      <primitive object={line.geometry} attach="geometry" />
+      <lineBasicMaterial
+        ref={materialRef}
+        attach="material"
+        color={line.color}
+        linewidth={1}
+        opacity={0.6}
+        transparent
+      />
+    </line>
   )
 } 
