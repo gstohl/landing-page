@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useThreeScene } from './ThreeSceneProvider'
 import Link from 'next/link'
 import Image from 'next/image'
+import { AboutSection } from './AboutSection'
 
 // Project interface for type safety
 interface Project {
@@ -205,6 +206,10 @@ export const CyberpunkLanding: React.FC = () => {
               </div>
             ) : (
               <>
+                {/* About Section */}
+                <AboutSection />
+
+                {/* Projects Section */}
                 {projects.map(project => (
                   <div
                     key={project.id}
@@ -303,10 +308,13 @@ export const CyberpunkLanding: React.FC = () => {
 
                 {/* Contact Card */}
                 <div className="glass-card rounded-lg p-6 cyber-glow mb-6">
-                  <h3 className="text-xl font-orbitron text-[#00ff00] mb-4">CONTACT</h3>
+                  <h3 className="text-xl font-orbitron text-[#00ff00] mb-2">CONTACT</h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    Need an architect to bring your vision to reality? I help fellow beings build.
+                  </p>
                   <div className="flex flex-col space-y-3">
-                    <a 
-                      href="mailto:dominik.gstoehl@icloud.com" 
+                    <a
+                      href="mailto:dominik.gstoehl@icloud.com"
                       className="flex items-center gap-2 text-gray-300 hover:text-[#00ff00] transition-colors"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -318,49 +326,43 @@ export const CyberpunkLanding: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Mentions Card */}
-                <div className="glass-card rounded-lg p-6 cyber-glow mb-6">
-                  <h3 className="text-xl font-orbitron text-[#00ff00] mb-4">MENTIONS</h3>
-                  
-                  {/* Mention sub-card */}
-                  <div className="border border-[#003300] rounded-lg p-4 bg-black/30 mb-4">
-                    {/* Name and Socials */}
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-lg font-orbitron text-[#00ff00]">Manuel Lampert</h4>
-                      
-                      <div className="flex gap-2">
-                        <a 
-                          href="https://x.com/manuellampert" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center w-7 h-7 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
-                          aria-label="X profile"
-                        >
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-                          </svg>
-                        </a>
-                        <a 
-                          href="https://manuellampert.com" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center w-7 h-7 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
-                          aria-label="Website"
-                        >
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </a>
+                {/* Mentions Card - Compact */}
+                <div className="glass-card rounded-lg p-4 cyber-glow mb-6">
+                  <h3 className="text-sm font-orbitron text-[#00ff00] mb-3 tracking-wider">MENTIONS</h3>
+
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-gray-200 text-sm font-semibold">Manuel Lampert</span>
+                        <div className="flex gap-1.5">
+                          <a
+                            href="https://x.com/manuellampert"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center w-5 h-5 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
+                            aria-label="X profile"
+                          >
+                            <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                            </svg>
+                          </a>
+                          <a
+                            href="https://manuellampert.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center w-5 h-5 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
+                            aria-label="Website"
+                          >
+                            <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                    
-                    {/* Projects */}
-                    <div className="pl-2 border-l-2 border-[#003300]">
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-200">Vanity Address</span>
+                        <span className="text-gray-400 text-xs">Vanity Address</span>
                         <span className="px-2 py-0.5 bg-[#002200]/60 text-[#00ff00] text-xs rounded">UI Design</span>
                       </div>
-                      <p className="text-gray-400 text-xs mt-1">Initial UI design</p>
                     </div>
                   </div>
                 </div>
