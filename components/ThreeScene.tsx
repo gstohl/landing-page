@@ -28,23 +28,6 @@ function isWebGLAvailable() {
   }
 }
 
-// Effects component with proper post-processing setup
-// This is kept for future use even though it's not currently utilized
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function Effects() {
-  const { gl } = useThree()
-  
-  useEffect(() => {
-    // Initialize any post-processing effects here if needed
-    gl.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Limit pixel ratio for better performance
-    gl.shadowMap.enabled = true
-    gl.shadowMap.type = THREE.PCFSoftShadowMap
-
-    // Removed resize handler - camera perspective handles viewport
-  }, [gl])
-
-  return null
-}
 
 // Error Fallback component for the ErrorBoundary
 function ErrorFallback({ error }: { error: Error }) {
@@ -86,14 +69,14 @@ const CRTEffect = React.memo(function CRTEffect() {
         kernelSize={isMobile ? KernelSize.MEDIUM : KernelSize.LARGE}
         mipmapBlur
       />
-      {!isMobile && (
+      {!isMobile ? (
         <DepthOfField
           focusDistance={0}
           focalLength={0.02}
           bokehScale={2}
           height={480}
         />
-      )}
+      ) : null}
       <Scanline blendFunction={BlendFunction.OVERLAY} density={isMobile ? 1.0 : 1.5} opacity={isMobile ? 0.4 : 0.6} />
       <ChromaticAberration offset={isMobile ? [0.002, 0.002] : [0.004, 0.004]} />
       <Vignette eskil={false} offset={0.1} darkness={0.9} />
