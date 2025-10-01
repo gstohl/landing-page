@@ -199,16 +199,16 @@ export const CyberpunkLanding: React.FC = () => {
             
             {/* Render privacy policy if on that page, otherwise show projects */}
             {isPrivacyPage ? (
-              <div className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow">
+              <div className="glass-card rounded-lg p-6 cyber-glow">
                 <h2 className="text-2xl font-orbitron text-[#00ff00] tracking-wider mb-6">PRIVACY POLICY</h2>
                 {renderPrivacyPolicy()}
               </div>
             ) : (
               <>
                 {projects.map(project => (
-                  <div 
+                  <div
                     key={project.id}
-                    className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow mb-6"
+                    className="glass-card rounded-lg p-6 cyber-glow mb-6"
                   >
                     <div className="flex gap-4 mb-4">
                       <div className="hidden sm:block w-16 h-16 rounded-md overflow-hidden flex-shrink-0 relative">
@@ -302,7 +302,7 @@ export const CyberpunkLanding: React.FC = () => {
                 ))}
 
                 {/* Contact Card */}
-                <div className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow mb-6">
+                <div className="glass-card rounded-lg p-6 cyber-glow mb-6">
                   <h3 className="text-xl font-orbitron text-[#00ff00] mb-4">CONTACT</h3>
                   <div className="flex flex-col space-y-3">
                     <a 
@@ -319,7 +319,7 @@ export const CyberpunkLanding: React.FC = () => {
                 </div>
 
                 {/* Mentions Card */}
-                <div className="backdrop-blur-sm bg-black/40 rounded-lg border border-[#00ff00]/30 p-6 cyber-glow mb-6">
+                <div className="glass-card rounded-lg p-6 cyber-glow mb-6">
                   <h3 className="text-xl font-orbitron text-[#00ff00] mb-4">MENTIONS</h3>
                   
                   {/* Mention sub-card */}

@@ -53,10 +53,10 @@ body {
     --dark-bg: 240 20% 3%;
   }
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
@@ -86,9 +86,9 @@ body {
     box-sizing: border-box;
   }
   body {
-    @apply bg-background text-foreground;
-    background-color: #000000;
-    background-image: radial-gradient(circle at center, rgba(35, 10, 40, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+    background-color: #000000 !important;
+    background-image: none !important;
+    color: #ffffff;
   }
   
   html {
@@ -107,19 +107,32 @@ body {
     @apply font-orbitron tracking-wider;
     text-shadow: 0 0 5px #00ffff, 0 0 10px rgba(0, 255, 255, 0.8);
   }
-  
+
   .glitch {
     position: relative;
     animation: glitch 3s infinite;
   }
-  
+
   .neon-border {
     box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff;
     border: 1px solid #00ffff;
   }
-  
+
   .cyber-glow {
-    filter: drop-shadow(0 0 0.5rem #00ffff);
+    filter: drop-shadow(0 0 0.3rem rgba(0, 255, 0, 0.2));
+  }
+
+  /* Glass morphism effect for cards - Safari-style blur */
+  .glass-card {
+    background: rgba(0, 0, 0, 0.25) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid rgba(0, 255, 255, 0.38) !important;
+    box-shadow:
+      0 0 14px rgba(0, 255, 255, 0.45),
+      0 0 28px rgba(0, 255, 255, 0.25),
+      0 8px 32px 0 rgba(0, 0, 0, 0.37),
+      inset 0 0 28px rgba(0, 255, 255, 0.07);
   }
 }
 
