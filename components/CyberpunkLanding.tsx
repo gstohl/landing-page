@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useThreeScene } from './ThreeSceneProvider'
 import Link from 'next/link'
-import Image from 'next/image'
 import { AboutSection } from './AboutSection'
 import { motion } from 'framer-motion'
 
