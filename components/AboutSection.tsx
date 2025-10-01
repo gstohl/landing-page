@@ -18,6 +18,9 @@ export const AboutSection: React.FC = () => {
           className="text-gray-300 leading-relaxed space-y-3"
         >
           <p>
+            Making data available @ ???
+          </p>
+          <p>
             <span className="text-[#00ffff] font-semibold font-orbitron">10+</span> years combining{' '}
             <span className="text-[#00ffff] font-semibold font-orbitron">System + Software Engineering</span> to fulfill my visions and tasks.
             Stationed in <span className="text-[#00ffff] font-semibold font-orbitron">Liechtenstein</span>.

@@ -3,6 +3,7 @@ import { useThreeScene } from './ThreeSceneProvider'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AboutSection } from './AboutSection'
+import { motion } from 'framer-motion'
 
 // Project interface for type safety
 interface Project {
@@ -209,108 +210,16 @@ export const CyberpunkLanding: React.FC = () => {
                 {/* About Section */}
                 <AboutSection />
 
-                {/* Projects Section */}
-                {projects.map(project => (
-                  <div
-                    key={project.id}
-                    className="glass-card rounded-lg p-6 cyber-glow mb-6"
-                  >
-                    <div className="flex gap-4 mb-4">
-                      <div className="hidden sm:block w-16 h-16 rounded-md overflow-hidden flex-shrink-0 relative">
-                        {project.image && (
-                          <Image 
-                            src={project.image} 
-                            alt={project.name} 
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                          />
-                        )}
-                      </div>
-                      <div className="flex-grow">
-                        <div className="flex justify-between items-start">
-                          <h3 className="text-xl font-orbitron text-[#00ff00] mb-1">{project.name}</h3>
-                          {project.releaseDate && (
-                            <span className="text-xs text-gray-400">{project.releaseDate}</span>
-                          )}
-                        </div>
-                        <div className="flex flex-wrap gap-2 mb-2">
-                          {project.technologies.map(tech => (
-                            <span 
-                              key={tech} 
-                              className="px-2 py-1 bg-[#002200]/60 text-[#00ff00] text-xs rounded"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-300 mb-4">{project.description}</p>
-                    
-                    <div className="flex flex-wrap gap-3">
-                      {project.appStoreUrl && (
-                        <a 
-                          href={project.appStoreUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-1 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300 text-sm"
-                        >
-                          <svg className="w-4 h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                            <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
-                          </svg>
-                          App Store
-                        </a>
-                      )}
-                      
-                      {project.githubUrl && (
-                        <a 
-                          href={project.githubUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-1 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300 text-sm"
-                        >
-                          <svg className="w-4 h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                            <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
-                          </svg>
-                          GitHub
-                        </a>
-                      )}
-                      
-                      {project.url && (
-                        <a 
-                          href={project.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-1 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300 text-sm"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                          Website
-                        </a>
-                      )}
-                      
-                      {project.privacyPolicyUrl && (
-                        <Link href={project.privacyPolicyUrl}>
-                          <div className="flex items-center gap-2 px-3 py-1 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300 text-sm cursor-pointer">
-                            <svg className="w-4 h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                              <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.7 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"/>
-                            </svg>
-                            Privacy Policy
-                          </div>
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
                 {/* Contact Card */}
-                <div className="glass-card rounded-lg p-6 cyber-glow mb-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="glass-card rounded-lg p-6 cyber-glow mb-6"
+                >
                   <h3 className="text-xl font-orbitron text-[#00ff00] mb-2">CONTACT</h3>
                   <p className="text-gray-400 text-sm mb-4">
-                    Need an architect to bring your vision to reality? I help fellow beings build.
+                    I help fellow beings build.
                   </p>
                   <div className="flex flex-col space-y-3">
                     <a
@@ -324,48 +233,65 @@ export const CyberpunkLanding: React.FC = () => {
                       <span>dominik.gstoehl@icloud.com</span>
                     </a>
                   </div>
-                </div>
+                </motion.div>
 
-                {/* Mentions Card - Compact */}
-                <div className="glass-card rounded-lg p-4 cyber-glow mb-6">
-                  <h3 className="text-sm font-orbitron text-[#00ff00] mb-3 tracking-wider">MENTIONS</h3>
-
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-gray-200 text-sm font-semibold">Manuel Lampert</span>
-                        <div className="flex gap-1.5">
-                          <a
-                            href="https://x.com/manuellampert"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center w-5 h-5 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
-                            aria-label="X profile"
-                          >
-                            <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-                            </svg>
-                          </a>
-                          <a
-                            href="https://manuellampert.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center w-5 h-5 bg-[#003300]/70 text-[#00ff00] rounded hover:bg-[#004400] transition-colors duration-300"
-                            aria-label="Website"
-                          >
-                            <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                          </a>
+                {/* Projects Section - Compact */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="glass-card rounded-lg p-4 cyber-glow"
+                >
+                  <h3 className="text-sm font-orbitron text-[#00ff00] mb-3 tracking-wider">SIDE PROJECTS</h3>
+                  <div className="space-y-2">
+                    {projects.map((project, index) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.35 + index * 0.1 }}
+                        className="flex items-center justify-between py-2 border-b border-[#00ffff]/10 last:border-b-0"
+                      >
+                        <div className="flex-1">
+                          <h4 className="text-sm text-gray-200 font-semibold">{project.name}</h4>
+                          <p className="text-xs text-gray-400 mt-0.5">{project.description}</p>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 text-xs">Vanity Address</span>
-                        <span className="px-2 py-0.5 bg-[#002200]/60 text-[#00ff00] text-xs rounded">UI Design</span>
-                      </div>
-                    </div>
+                        <div className="flex gap-2 ml-4">
+                          {project.appStoreUrl && (
+                            <a href={project.appStoreUrl} target="_blank" rel="noopener noreferrer" className="text-[#00ff00] hover:text-[#00ffff] transition-colors" aria-label="App Store">
+                              <svg className="w-4 h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
+                              </svg>
+                            </a>
+                          )}
+                          {project.githubUrl && (
+                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-[#00ff00] hover:text-[#00ffff] transition-colors" aria-label="GitHub">
+                              <svg className="w-4 h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/>
+                              </svg>
+                            </a>
+                          )}
+                          {project.url && (
+                            <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-[#00ff00] hover:text-[#00ffff] transition-colors" aria-label="Website">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            </a>
+                          )}
+                          {project.privacyPolicyUrl && (
+                            <Link href={project.privacyPolicyUrl}>
+                              <div className="text-[#00ff00] hover:text-[#00ffff] transition-colors cursor-pointer" aria-label="Privacy Policy">
+                                <svg className="w-4 h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                  <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.7 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"/>
+                                </svg>
+                              </div>
+                            </Link>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
-                </div>
+                </motion.div>
               </>
             )}
           </div>
