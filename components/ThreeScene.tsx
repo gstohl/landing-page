@@ -4,7 +4,7 @@ import { PerspectiveCamera, Sparkles, Stars } from '@react-three/drei'
 import * as THREE from 'three'
 import { ErrorBoundary } from 'react-error-boundary'
 import dynamic from 'next/dynamic'
-import { EffectComposer, Scanline, ChromaticAberration, Vignette, Noise, Bloom } from '@react-three/postprocessing'
+import { EffectComposer, Scanline, ChromaticAberration, Vignette, Noise, Bloom, DepthOfField } from '@react-three/postprocessing'
 import { BlendFunction, KernelSize } from 'postprocessing'
 
 // Define the structure for section data passed down
@@ -60,19 +60,43 @@ const CRTEffect = React.memo(function CRTEffect() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
+  if (isMobile) {
+    return (
+      <EffectComposer>
+        <Bloom
+          intensity={1.0}
+          luminanceThreshold={0.3}
+          luminanceSmoothing={0.9}
+          kernelSize={KernelSize.MEDIUM}
+          mipmapBlur
+        />
+        <Scanline blendFunction={BlendFunction.OVERLAY} density={1.0} opacity={0.4} />
+        <ChromaticAberration offset={[0.002, 0.002]} />
+        <Vignette eskil={false} offset={0.1} darkness={0.9} />
+        <Noise opacity={0.1} blendFunction={BlendFunction.OVERLAY} />
+      </EffectComposer>
+    )
+  }
+
   return (
     <EffectComposer>
       <Bloom
-        intensity={isMobile ? 1.0 : 1.5}
-        luminanceThreshold={isMobile ? 0.3 : 0.2}
+        intensity={1.5}
+        luminanceThreshold={0.2}
         luminanceSmoothing={0.9}
-        kernelSize={isMobile ? KernelSize.MEDIUM : KernelSize.LARGE}
+        kernelSize={KernelSize.LARGE}
         mipmapBlur
       />
-      <Scanline blendFunction={BlendFunction.OVERLAY} density={isMobile ? 1.0 : 1.5} opacity={isMobile ? 0.4 : 0.6} />
-      <ChromaticAberration offset={isMobile ? [0.002, 0.002] : [0.004, 0.004]} />
+      <DepthOfField
+        focusDistance={0}
+        focalLength={0.02}
+        bokehScale={2}
+        height={480}
+      />
+      <Scanline blendFunction={BlendFunction.OVERLAY} density={1.5} opacity={0.6} />
+      <ChromaticAberration offset={[0.004, 0.004]} />
       <Vignette eskil={false} offset={0.1} darkness={0.9} />
-      <Noise opacity={isMobile ? 0.1 : 0.2} blendFunction={BlendFunction.OVERLAY} />
+      <Noise opacity={0.2} blendFunction={BlendFunction.OVERLAY} />
     </EffectComposer>
   )
 })
